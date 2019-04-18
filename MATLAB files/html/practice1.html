@@ -1,0 +1,487 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>practice1</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-17"><meta name="DC.source" content="practice1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Set up Data</a></li><li><a href="#2">a) Plot the training data</a></li><li><a href="#3">b) Create a linear regression learn using the above functions</a></li><li><a href="#4">c) Create plots with the data and a higher-order polynomial</a></li><li><a href="#5">3</a></li><li><a href="#6">5</a></li><li><a href="#7">7</a></li><li><a href="#8">9</a></li><li><a href="#9">11</a></li><li><a href="#10">13</a></li></ul></div><h2 id="1">Set up Data</h2><pre class="codeinput">clear
+mTrain=load(<span class="string">'data/mTrainData.txt'</span>);
+mTest = load(<span class="string">'data/mTestData.txt'</span>);
+
+Xte=mTest(:,1); Yte=mTest (:,2);
+Xtr=mTrain(:,1); Ytr=mTrain (:,2);
+</pre><h2 id="2">a) Plot the training data</h2><pre class="codeinput">plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Plotting the First 20 Training Data Points'</span>);
+</pre><img vspace="5" hspace="5" src="practice1_01.png" alt=""> <h2 id="3">b) Create a linear regression learn using the above functions</h2><pre class="codeinput">Xtr_2 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2];
+learner = linearReg(Xtr_2 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+
+<span class="comment">% plot it on the same plot as the training data</span>
+xline = [0:.01:1]';
+yline = predict( learner , polyx (xline ,2) );
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+</pre><img vspace="5" hspace="5" src="practice1_02.png" alt=""> <h2 id="4">c) Create plots with the data and a higher-order polynomial</h2><h2 id="5">3</h2><pre class="codeinput">Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3];
+
+learner = linearReg(Xtr_3 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+yline = predict( learner , polyx (xline ,3) );
+
+<span class="comment">% plot it on the same plot as the training data</span>
+figure
+plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Data and linear regression of 3rd order'</span>);
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+
+disp(<span class="string">'Training MSE of order 3 regression'</span>)
+tr_err = mse(learner,Xtr_3,Ytr)
+disp(<span class="string">'Testing MSE of order 3 regression'</span>)
+te_err = mse(learner,Xte_3, Yte)
+disp(<span class="string">'MAE for order 3 regression'</span>)
+te_mae = mae(learner,Xte_3, Yte)
+</pre><pre class="codeoutput">Training MSE of order 3 regression
+
+tr_err =
+
+    0.0828
+
+Testing MSE of order 3 regression
+
+te_err =
+
+    0.0983
+
+MAE for order 3 regression
+
+te_mae =
+
+    0.2777
+
+</pre><img vspace="5" hspace="5" src="practice1_03.png" alt=""> <h2 id="6">5</h2><pre class="codeinput">Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5];
+
+learner = linearReg(Xtr_3 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+yline = predict( learner , polyx (xline ,5) );
+
+<span class="comment">% plot it on the same plot as the training data</span>
+figure
+plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Plotting data and linear regression of 5th order'</span>);
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+
+disp(<span class="string">'Training MSE of order 5 regression'</span>)
+tr_err = mse(learner,Xtr_3,Ytr)
+disp(<span class="string">'Testing MSE of order 5 regression'</span>)
+te_err = mse(learner,Xte_3, Yte)
+disp(<span class="string">'MAE for order 5 regression'</span>)
+te_mae = mae(learner,Xte_3, Yte)
+</pre><pre class="codeoutput">Training MSE of order 5 regression
+
+tr_err =
+
+    0.0813
+
+Testing MSE of order 5 regression
+
+te_err =
+
+    0.0959
+
+MAE for order 5 regression
+
+te_mae =
+
+    0.2745
+
+</pre><img vspace="5" hspace="5" src="practice1_04.png" alt=""> <h2 id="7">7</h2><pre class="codeinput">Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7];
+
+learner = linearReg(Xtr_3 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+yline = predict( learner , polyx (xline ,7) );
+
+<span class="comment">% plot it on the same plot as the training data</span>
+figure
+plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Plotting data and linear regression of 7th order'</span>);
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+
+disp(<span class="string">'Training MSE of order 7 regression'</span>)
+tr_err = mse(learner,Xtr_3,Ytr)
+disp(<span class="string">'Testing MSE of order 7 regression'</span>)
+te_err = mse(learner,Xte_3, Yte)
+disp(<span class="string">'MAE for order 7 regression'</span>)
+te_mae = mae(learner,Xte_3, Yte)
+</pre><pre class="codeoutput">Training MSE of order 7 regression
+
+tr_err =
+
+    0.0783
+
+Testing MSE of order 7 regression
+
+te_err =
+
+    0.1094
+
+MAE for order 7 regression
+
+te_mae =
+
+    0.2889
+
+</pre><img vspace="5" hspace="5" src="practice1_05.png" alt=""> <h2 id="8">9</h2><pre class="codeinput">Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7, Xtr.^8, Xtr.^9];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7, Xte.^8, Xte.^9];
+
+learner = linearReg(Xtr_3 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+yline = predict( learner , polyx (xline ,9) );
+
+<span class="comment">% plot it on the same plot as the training data</span>
+figure
+plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Plotting data and linear regression of 9th order'</span>);
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+
+disp(<span class="string">'Training MSE of order 9 regression'</span>)
+tr_err = mse(learner,Xtr_3,Ytr)
+disp(<span class="string">'Testing MSE of order 9 regression'</span>)
+te_err = mse(learner,Xte_3, Yte)
+disp(<span class="string">'MAE for order 9 regression'</span>)
+te_mae = mae(learner,Xte_3, Yte)
+</pre><pre class="codeoutput">Training MSE of order 9 regression
+
+tr_err =
+
+    0.0771
+
+Testing MSE of order 9 regression
+
+te_err =
+
+    0.1135
+
+MAE for order 9 regression
+
+te_mae =
+
+    0.2919
+
+</pre><img vspace="5" hspace="5" src="practice1_06.png" alt=""> <h2 id="9">11</h2><pre class="codeinput">Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7, Xtr.^8, Xtr.^9,  Xtr.^10, Xtr.^11];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7, Xte.^8, Xte.^9,  Xte.^10, Xte.^11];
+
+learner = linearReg(Xtr_3 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+yline = predict( learner , polyx (xline ,11) );
+
+<span class="comment">% plot it on the same plot as the training data</span>
+figure
+plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Plotting data and linear regression of 11th order'</span>);
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+
+disp(<span class="string">'Training MSE of order 11 regression'</span>)
+tr_err = mse(learner,Xtr_3,Ytr)
+disp(<span class="string">'Testing MSE of order 11 regression'</span>)
+te_err = mse(learner,Xte_3, Yte)
+disp(<span class="string">'MAE for order 11 regression'</span>)
+te_mae = mae(learner,Xte_3, Yte)
+</pre><pre class="codeoutput">Training MSE of order 11 regression
+
+tr_err =
+
+    0.0756
+
+Testing MSE of order 11 regression
+
+te_err =
+
+    0.1132
+
+MAE for order 11 regression
+
+te_mae =
+
+    0.2940
+
+</pre><img vspace="5" hspace="5" src="practice1_07.png" alt=""> <h2 id="10">13</h2><pre class="codeinput">Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7, Xtr.^8, Xtr.^9,  Xtr.^10, Xtr.^11,  Xtr.^12, Xtr.^13];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7, Xte.^8, Xte.^9,  Xte.^10, Xte.^11,  Xte.^12, Xte.^13];
+
+learner = linearReg(Xtr_3 ,Ytr); <span class="comment">% train a linear regression learner</span>
+
+yline = predict( learner , polyx (xline ,13) );
+
+<span class="comment">% plot it on the same plot as the training data</span>
+figure
+plot(Xtr(1:20),Ytr(1:20),<span class="string">'bo'</span>);
+hold <span class="string">on</span>
+title(<span class="string">'Plotting data and linear regression of 13th order'</span>);
+plot(xline, yline, <span class="string">'r*'</span>);
+legend(<span class="string">'Training Data'</span>,<span class="string">'Linear Regression'</span>);
+
+disp(<span class="string">'Training MSE of order 13 regression'</span>)
+tr_err = mse(learner,Xtr_3,Ytr)
+disp(<span class="string">'Testing MSE of order 13 regression'</span>)
+te_err = mse(learner,Xte_3,Yte)
+disp(<span class="string">'MAE for order 13 regression'</span>)
+te_mae = mae(learner,Xte_3, Yte)
+</pre><pre class="codeoutput">Training MSE of order 13 regression
+
+tr_err =
+
+    0.0750
+
+Testing MSE of order 13 regression
+
+te_err =
+
+    0.1128
+
+MAE for order 13 regression
+
+te_mae =
+
+    0.2925
+
+</pre><img vspace="5" hspace="5" src="practice1_08.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+%% Set up Data
+clear
+mTrain=load('data/mTrainData.txt');
+mTest = load('data/mTestData.txt');
+
+Xte=mTest(:,1); Yte=mTest (:,2);
+Xtr=mTrain(:,1); Ytr=mTrain (:,2);
+
+%% a) Plot the training data
+
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Plotting the First 20 Training Data Points');
+
+
+%% b) Create a linear regression learn using the above functions
+Xtr_2 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2];
+learner = linearReg(Xtr_2 ,Ytr); % train a linear regression learner
+
+
+% plot it on the same plot as the training data
+xline = [0:.01:1]';
+yline = predict( learner , polyx (xline ,2) );
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+
+%% c) Create plots with the data and a higher-order polynomial
+%% 3
+Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3];
+
+learner = linearReg(Xtr_3 ,Ytr); % train a linear regression learner
+
+yline = predict( learner , polyx (xline ,3) );
+
+% plot it on the same plot as the training data
+figure
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Data and linear regression of 3rd order');
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+disp('Training MSE of order 3 regression')
+tr_err = mse(learner,Xtr_3,Ytr)
+disp('Testing MSE of order 3 regression')
+te_err = mse(learner,Xte_3, Yte)
+disp('MAE for order 3 regression')
+te_mae = mae(learner,Xte_3, Yte)
+
+%% 5
+Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5];
+
+learner = linearReg(Xtr_3 ,Ytr); % train a linear regression learner
+
+yline = predict( learner , polyx (xline ,5) );
+
+% plot it on the same plot as the training data
+figure
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Plotting data and linear regression of 5th order');
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+disp('Training MSE of order 5 regression')
+tr_err = mse(learner,Xtr_3,Ytr)
+disp('Testing MSE of order 5 regression')
+te_err = mse(learner,Xte_3, Yte)
+disp('MAE for order 5 regression')
+te_mae = mae(learner,Xte_3, Yte)
+%% 7
+Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7];
+
+learner = linearReg(Xtr_3 ,Ytr); % train a linear regression learner
+
+yline = predict( learner , polyx (xline ,7) );
+
+% plot it on the same plot as the training data
+figure
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Plotting data and linear regression of 7th order');
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+disp('Training MSE of order 7 regression')
+tr_err = mse(learner,Xtr_3,Ytr)
+disp('Testing MSE of order 7 regression')
+te_err = mse(learner,Xte_3, Yte)
+disp('MAE for order 7 regression')
+te_mae = mae(learner,Xte_3, Yte)
+%% 9
+Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7, Xtr.^8, Xtr.^9];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7, Xte.^8, Xte.^9];
+
+learner = linearReg(Xtr_3 ,Ytr); % train a linear regression learner
+
+yline = predict( learner , polyx (xline ,9) );
+
+% plot it on the same plot as the training data
+figure
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Plotting data and linear regression of 9th order');
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+disp('Training MSE of order 9 regression')
+tr_err = mse(learner,Xtr_3,Ytr)
+disp('Testing MSE of order 9 regression')
+te_err = mse(learner,Xte_3, Yte)
+disp('MAE for order 9 regression')
+te_mae = mae(learner,Xte_3, Yte)
+%% 11
+Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7, Xtr.^8, Xtr.^9,  Xtr.^10, Xtr.^11];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7, Xte.^8, Xte.^9,  Xte.^10, Xte.^11];
+
+learner = linearReg(Xtr_3 ,Ytr); % train a linear regression learner
+
+yline = predict( learner , polyx (xline ,11) );
+
+% plot it on the same plot as the training data
+figure
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Plotting data and linear regression of 11th order');
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+disp('Training MSE of order 11 regression')
+tr_err = mse(learner,Xtr_3,Ytr)
+disp('Testing MSE of order 11 regression')
+te_err = mse(learner,Xte_3, Yte)
+disp('MAE for order 11 regression')
+te_mae = mae(learner,Xte_3, Yte)
+%% 13
+Xtr_3 = [ ones(size(Xtr,1) ,1) , Xtr , Xtr.^2, Xtr.^3, Xtr.^4, Xtr.^5, Xtr.^6, Xtr.^7, Xtr.^8, Xtr.^9,  Xtr.^10, Xtr.^11,  Xtr.^12, Xtr.^13];
+Xte_3 = [ ones(size(Xte,1) ,1) , Xte , Xte.^2, Xte.^3, Xte.^4, Xte.^5, Xte.^6, Xte.^7, Xte.^8, Xte.^9,  Xte.^10, Xte.^11,  Xte.^12, Xte.^13];
+
+learner = linearReg(Xtr_3 ,Ytr); % train a linear regression learner
+
+yline = predict( learner , polyx (xline ,13) );
+
+% plot it on the same plot as the training data
+figure
+plot(Xtr(1:20),Ytr(1:20),'bo');
+hold on
+title('Plotting data and linear regression of 13th order');
+plot(xline, yline, 'r*');
+legend('Training Data','Linear Regression');
+
+disp('Training MSE of order 13 regression')
+tr_err = mse(learner,Xtr_3,Ytr)
+disp('Testing MSE of order 13 regression')
+te_err = mse(learner,Xte_3,Yte)
+disp('MAE for order 13 regression')
+te_mae = mae(learner,Xte_3, Yte)
+
+##### SOURCE END #####
+--></body></html>

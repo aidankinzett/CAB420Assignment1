@@ -1,0 +1,256 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>practice3</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-17"><meta name="DC.source" content="practice3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Set up Data</a></li><li><a href="#2">a)</a></li><li><a href="#4">b)</a></li><li><a href="#6">c)</a></li></ul></div><h2 id="1">Set up Data</h2><pre class="codeinput">clear
+close <span class="string">all</span>
+mTrain=load(<span class="string">'data/mTrainData.txt'</span>);
+mTest = load(<span class="string">'data/mTestData.txt'</span>);
+
+Xte=mTest(:,1); Yte=mTest (:,2);
+Xtr=mTrain(:,1); Ytr=mTrain (:,2);
+</pre><h2 id="2">a)</h2><pre class="codeinput">train_data_x = Xtr(1:20);
+train_data_y = Ytr(1:20);
+test_data_x = Xte(1:20);
+test_data_y = Yte(1:20);
+
+mseTrain = zeros(1, length(train_data_x));
+mseTest = zeros(1, length(train_data_x));
+
+<span class="keyword">for</span> k = 1:length(train_data_x)
+    learner = knnRegress(k,train_data_x, train_data_y); <span class="comment">% train</span>
+    mseTrain(k) = mse(learner,train_data_x, train_data_y); <span class="comment">% train loss</span>
+    mseTest(k) = mse(learner, test_data_x, test_data_y); <span class="comment">% test loss</span>
+<span class="keyword">end</span>
+figure;
+hold <span class="string">on</span>;
+P1 = loglog(1:length(train_data_x), mseTrain, <span class="string">'b-'</span>);
+P2 = loglog(1:length(train_data_x), mseTest, <span class="string">'r-'</span>);
+
+legend([P1, P2], <span class="string">'Training MSE'</span>, <span class="string">'Test MSE'</span>);
+title(<span class="string">'MSE vs k for the first 20 pieces of data'</span>);
+grid <span class="string">on</span>;
+set(gca, <span class="string">'XScale'</span>, <span class="string">'log'</span>, <span class="string">'YScale'</span>, <span class="string">'log'</span>);
+</pre><p>The figure shows that the training MSE and the test MSE attempt to converge over time</p><img vspace="5" hspace="5" src="practice3_01.png" alt=""> <h2 id="4">b)</h2><pre class="codeinput">train_data_x = Xtr;
+train_data_y = Ytr;
+test_data_x = Xte;
+test_data_y = Yte;
+
+mseTrain = zeros(1, length(train_data_x));
+mseTest = zeros(1, length(train_data_x));
+
+<span class="keyword">for</span> k = 1:length(train_data_x)
+    learner = knnRegress(k,train_data_x, train_data_y); <span class="comment">% train</span>
+    mseTrain(k) = mse(learner,train_data_x, train_data_y); <span class="comment">% train loss</span>
+    mseTest(k) = mse(learner, test_data_x, test_data_y); <span class="comment">% test loss</span>
+<span class="keyword">end</span>
+figure;
+hold <span class="string">on</span>;
+P3 = loglog(1:length(train_data_x), mseTrain, <span class="string">'b:'</span>);
+P4 = loglog(1:length(train_data_x), mseTest, <span class="string">'r:'</span>);
+legend([P3, P4], <span class="string">'Training MSE'</span>, <span class="string">'Test MSE'</span>);
+title(<span class="string">'MSE vs k for all pieces of data'</span>);
+grid <span class="string">on</span>;
+set(gca, <span class="string">'XScale'</span>, <span class="string">'log'</span>, <span class="string">'YScale'</span>, <span class="string">'log'</span>);
+</pre><p>The MSE for both test and training data smooth out over time</p><img vspace="5" hspace="5" src="practice3_02.png" alt=""> <h2 id="6">c)</h2><pre class="codeinput">train_data_x = Xtr;
+train_data_y = Ytr;
+
+
+mseTrain3 = zeros(length(train_data_x), 4);
+mseTest3 = zeros(length(train_data_x), 4);
+
+<span class="keyword">for</span> k = 1:length(train_data_x) <span class="comment">% 140 is number of train data, you might % you might need to change it.</span>
+    <span class="keyword">for</span> cv = 1:4 <span class="comment">% cross validation</span>
+        iTest = (1+20*(cv-1)):(20+20*(cv-1)); <span class="comment">% choose 20 indices for testing</span>
+        iTrain = setdiff(1:140, iTest); <span class="comment">% rest for testing</span>
+        learner = knnRegress(k,Xtr(iTrain),Ytr(iTrain)); <span class="comment">% train on X(iTrain ,:)</span>
+        mseTrain3(k, cv) = mse(learner,Xtr(iTrain),Ytr(iTrain)); <span class="comment">% train loss</span>
+        mseTest3(k, cv) = mse(learner,Xtr(iTest), Ytr(iTest)); <span class="comment">% test loss</span>
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+mseTrain3Ave = mean(mseTrain3, 2);
+mseTest3Ave = mean(mseTest3, 2);
+
+figure;
+hold <span class="string">on</span>;
+P1 = loglog(1:length(train_data_x), mseTrain, <span class="string">'b-'</span>);
+P2 = loglog(1:length(train_data_x), mseTest, <span class="string">'r-'</span>);
+P3 = loglog(1:length(train_data_x), mseTrain, <span class="string">'b:'</span>);
+P4 = loglog(1:length(train_data_x), mseTest, <span class="string">'r:'</span>);
+P5 = loglog(1:length(train_data_x), mseTrain3Ave, <span class="string">'b-.'</span>);
+P6 = loglog(1:length(train_data_x), mseTest3Ave, <span class="string">'r-.'</span>);
+legend([P1, P2, P3, P4, P5, P6], <span class="string">'Training MSE first 20'</span>, <span class="string">'Test MSE first 20'</span>, <span class="string">'Training MSE all'</span>, <span class="string">'Test MSE all'</span>, <span class="string">'Training MSE CV averaged'</span>, <span class="string">'Test MSE CV averaged'</span>);
+title(<span class="string">'MSE vs k for all pieces of data'</span>);
+grid <span class="string">on</span>;
+set(gca, <span class="string">'XScale'</span>, <span class="string">'log'</span>, <span class="string">'YScale'</span>, <span class="string">'log'</span>);
+</pre><p>This technique might be used to ensure the best results</p><img vspace="5" hspace="5" src="practice3_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Set up Data
+clear
+close all
+mTrain=load('data/mTrainData.txt');
+mTest = load('data/mTestData.txt');
+
+Xte=mTest(:,1); Yte=mTest (:,2);
+Xtr=mTrain(:,1); Ytr=mTrain (:,2);
+
+%% a)
+train_data_x = Xtr(1:20);
+train_data_y = Ytr(1:20);
+test_data_x = Xte(1:20);
+test_data_y = Yte(1:20);
+
+mseTrain = zeros(1, length(train_data_x));
+mseTest = zeros(1, length(train_data_x));
+
+for k = 1:length(train_data_x)
+    learner = knnRegress(k,train_data_x, train_data_y); % train
+    mseTrain(k) = mse(learner,train_data_x, train_data_y); % train loss 
+    mseTest(k) = mse(learner, test_data_x, test_data_y); % test loss 
+end
+figure;
+hold on;
+P1 = loglog(1:length(train_data_x), mseTrain, 'b-');
+P2 = loglog(1:length(train_data_x), mseTest, 'r-');
+
+legend([P1, P2], 'Training MSE', 'Test MSE');
+title('MSE vs k for the first 20 pieces of data');
+grid on;
+set(gca, 'XScale', 'log', 'YScale', 'log');
+
+%%%
+% The figure shows that the training MSE and the test MSE attempt to
+% converge over time
+
+%% b)
+train_data_x = Xtr;
+train_data_y = Ytr;
+test_data_x = Xte;
+test_data_y = Yte;
+
+mseTrain = zeros(1, length(train_data_x));
+mseTest = zeros(1, length(train_data_x));
+
+for k = 1:length(train_data_x)
+    learner = knnRegress(k,train_data_x, train_data_y); % train
+    mseTrain(k) = mse(learner,train_data_x, train_data_y); % train loss 
+    mseTest(k) = mse(learner, test_data_x, test_data_y); % test loss 
+end
+figure;
+hold on;
+P3 = loglog(1:length(train_data_x), mseTrain, 'b:');
+P4 = loglog(1:length(train_data_x), mseTest, 'r:');
+legend([P3, P4], 'Training MSE', 'Test MSE');
+title('MSE vs k for all pieces of data');
+grid on;
+set(gca, 'XScale', 'log', 'YScale', 'log');
+
+%%%
+% The MSE for both test and training data smooth out over time
+
+%% c)
+train_data_x = Xtr;
+train_data_y = Ytr;
+
+
+mseTrain3 = zeros(length(train_data_x), 4);
+mseTest3 = zeros(length(train_data_x), 4);
+
+for k = 1:length(train_data_x) % 140 is number of train data, you might % you might need to change it.
+    for cv = 1:4 % cross validation 
+        iTest = (1+20*(cv-1)):(20+20*(cv-1)); % choose 20 indices for testing 
+        iTrain = setdiff(1:140, iTest); % rest for testing 
+        learner = knnRegress(k,Xtr(iTrain),Ytr(iTrain)); % train on X(iTrain ,:)
+        mseTrain3(k, cv) = mse(learner,Xtr(iTrain),Ytr(iTrain)); % train loss 
+        mseTest3(k, cv) = mse(learner,Xtr(iTest), Ytr(iTest)); % test loss 
+    
+    end
+end
+
+mseTrain3Ave = mean(mseTrain3, 2);
+mseTest3Ave = mean(mseTest3, 2);
+
+figure;
+hold on;
+P1 = loglog(1:length(train_data_x), mseTrain, 'b-');
+P2 = loglog(1:length(train_data_x), mseTest, 'r-');
+P3 = loglog(1:length(train_data_x), mseTrain, 'b:');
+P4 = loglog(1:length(train_data_x), mseTest, 'r:');
+P5 = loglog(1:length(train_data_x), mseTrain3Ave, 'b-.');
+P6 = loglog(1:length(train_data_x), mseTest3Ave, 'r-.');
+legend([P1, P2, P3, P4, P5, P6], 'Training MSE first 20', 'Test MSE first 20', 'Training MSE all', 'Test MSE all', 'Training MSE CV averaged', 'Test MSE CV averaged');
+title('MSE vs k for all pieces of data');
+grid on;
+set(gca, 'XScale', 'log', 'YScale', 'log');
+
+%%%
+% This technique might be used to ensure the best results
+
+##### SOURCE END #####
+--></body></html>
